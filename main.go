@@ -12,17 +12,15 @@ func main() {
 		fmt.Println(time.Since(start))
 	}()
 
-	ninjas := []string{"Derrick", "Prince", "Max", "jonny"}
+    smokeSignal := make(chan bool)
+	ninja := "Derrick"
+	go attack(ninja, smokeSignal)
 
-	for _, ninja := range ninjas {
-		go attack(ninja)
-	}
-
-	time.Sleep(time.Second * 2)
+    fmt.Println(<-smokeSignal)
 }
 
-
-func attack(target string) {
+func attack(target string, attacked chan bool) {
 	fmt.Println("Throwing ninja stars at", target)
 	time.Sleep(time.Second)
+	attacked <- true
 }
